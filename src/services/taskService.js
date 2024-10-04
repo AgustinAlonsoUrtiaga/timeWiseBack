@@ -4,13 +4,30 @@ const taskService = {
     // Obtener todas las tareas
     getAllTasks: async () => {
         try {
-            const tasks = await Task.findAll();
+            const tasks = await Task.findAll({
+                order: [
+                    ['priority', 'ASC'] // Ordenar por prioridad de menor a mayor
+                ]
+            });
             return tasks;
         } catch (err) {
             throw err;
         }
     },
-
+    updatePriority: async (taskId, newPriority) => {
+        try {
+            const task = await Task.findByPk(taskId);
+            if (task) {
+                task.priority = newPriority; // Actualizar el valor numérico de prioridad
+                await task.save();
+                return task;
+            } else {
+                throw new Error('Task not found');
+            }
+        } catch (err) {
+            throw err;
+        }
+    },
     // Obtener una tarea por ID
     getTaskById: async (id) => {
         try {
