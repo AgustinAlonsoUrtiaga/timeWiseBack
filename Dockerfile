@@ -1,26 +1,23 @@
-# Usar una imagen completa basada en Debian (bullseye)
-FROM node:18-bullseye
+# Usa una imagen oficial de Node.js como base
+FROM node:18-alpine
 
-# Instalar Python, Make y G++ para node-gyp
-RUN apt-get update && apt-get install -y \
-    python3 \
-    make \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
-
+# Establece el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copiar archivos de dependencias primero para aprovechar la caché
-COPY package.json package-lock.json ./
+# Copia los archivos de dependencia (package.json y package-lock.json)
+COPY package*.json ./
 
-# Instalar dependencias con logging detallado
-RUN npm install --legacy-peer-deps --verbose
+# Instala las dependencias
+RUN npm install --production
 
-# Copiar el resto del código de la aplicación
+# Copia todo el código fuente al contenedor
 COPY . .
 
-# Exponer el puerto en el que corre tu backend
+# Expone el puerto en el que tu aplicación se ejecuta (ajústalo si es necesario)
 EXPOSE 3000
 
-# Iniciar el servidor
+# Define una variable de entorno para producción
+ENV NODE_ENV=production
+
+# Comando para iniciar la aplicación
 CMD ["npm", "start"]
