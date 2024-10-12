@@ -1,22 +1,16 @@
-# Usar una imagen de Node.js con Alpine
-FROM node:18-alpine
-
-# Instalar herramientas necesarias para node-gyp
-RUN apk add --no-cache python3 make g++ bash
+FROM node:18-bullseye
 
 WORKDIR /app
 
-# Copiar archivos de dependencias primero para aprovechar la caché
+# Instalar herramientas de compilación
+RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+
 COPY package.json package-lock.json ./
 
-# Instalar dependencias con logging detallado
 RUN npm install --legacy-peer-deps --verbose
 
-# Copiar el resto del código de la aplicación
 COPY . .
 
-# Exponer el puerto en el que correrá la aplicación
 EXPOSE 3000
 
-# Iniciar el servidor
 CMD ["npm", "start"]
