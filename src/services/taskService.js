@@ -6,7 +6,7 @@ const taskService = {
         try {
             const tasks = await Task.findAll({
                 order: [
-                    ['priority', 'ASC'] // Ordenar por prioridad de menor a mayor
+                    ['priority', 'ASC']
                 ]
             });
             return tasks;
@@ -18,7 +18,7 @@ const taskService = {
         try {
             const task = await Task.findByPk(taskId);
             if (task) {
-                task.priority = newPriority; // Actualizar el valor numérico de prioridad
+                task.priority = newPriority;
                 await task.save();
                 return task;
             } else {
@@ -33,6 +33,17 @@ const taskService = {
         try {
             const task = await Task.findByPk(id);
             return task;
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    getTaskByEnvironment: async (environment) => {
+        try {
+            const tasks = await Task.findAll({
+                where: { environment },
+            });
+            return tasks;
         } catch (err) {
             throw err;
         }

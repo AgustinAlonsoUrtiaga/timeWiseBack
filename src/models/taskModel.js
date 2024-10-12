@@ -41,6 +41,9 @@ const Task = sequelize.define('Task', {
     },
     dueDate: {
         type: DataTypes.DATE,
+    },
+    environment: {
+        type: DataTypes.STRING,
     }
 }, {
     tableName: 'tasks'

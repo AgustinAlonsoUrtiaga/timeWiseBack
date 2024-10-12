@@ -21,6 +21,16 @@ const taskController = {
         }
     },
 
+    getTaskByEnvironment: async (req, res) => {
+        try {
+            const environment = decodeURIComponent(req.params.env);
+            const tasks = await taskService.getTaskByEnvironment(environment);
+            res.json(tasks);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    },
+
     // Crear una nueva tarea
     createTask: async (req, res) => {
         try {

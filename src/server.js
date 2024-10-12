@@ -9,7 +9,7 @@ const Task = require('./models/taskModel');
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:4200',  // Permitir el acceso desde localhost:4200
+    origin: 'http://localhost:3001',  // Permitir el acceso desde localhost:4200
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Métodos permitidos
     credentials: true  // Si necesitas enviar cookies o credenciales
 }));
