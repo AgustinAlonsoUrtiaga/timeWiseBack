@@ -1,23 +1,27 @@
-# Usa una imagen oficial de Node.js como base
-FROM node:18-alpine
+# Usa la imagen oficial de Node.js
+FROM node:18
 
 # Establece el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copia los archivos de dependencia (package.json y package-lock.json)
+# Copia el package.json y el package-lock.json
 COPY package*.json ./
 
-# Instala las dependencias
+# Instala las dependencias del sistema necesarias para compilar paquetes nativos
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instala solo las dependencias de producción
 RUN npm install --production
 
-# Copia todo el código fuente al contenedor
+# Copia el resto del código de la aplicación al contenedor
 COPY . .
 
-# Expone el puerto en el que tu aplicación se ejecuta (ajústalo si es necesario)
+# Expone el puerto en el que la aplicación escucha
 EXPOSE 3000
-
-# Define una variable de entorno para producción
-ENV NODE_ENV=production
 
 # Comando para iniciar la aplicación
 CMD ["npm", "start"]
