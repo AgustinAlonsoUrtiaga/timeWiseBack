@@ -8,13 +8,15 @@ const Task = require('./models/taskModel');
 
 const app = express();
 
-app.use(cors({
-    origin: process.env.ORIGIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-}));
+const corsOptions = {
+    origin: [process.env.ORIGIN],
+    optionsSuccessStatus: 200,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: ['Content-Type', 'Authorization']
+  };
 
-app.use(bodyParser.json()); // Middleware para analizar JSON
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
 
 app.use('/api', taskRoutes);
 
