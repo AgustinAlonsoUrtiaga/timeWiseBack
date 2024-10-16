@@ -9,7 +9,7 @@ const Task = require('./models/taskModel');
 const app = express();
 
 const corsOptions = {
-    origin: [process.env.ORIGIN],
+    origin: [process.env.ORIGIN || 'https://timewisenext-iuvr.vercel.app'],
     optionsSuccessStatus: 200,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization']
