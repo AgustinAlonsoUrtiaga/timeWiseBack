@@ -9,9 +9,9 @@ const Task = require('./models/taskModel');
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3001',  // Permitir el acceso desde localhost:4200
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Métodos permitidos
-    credentials: true  // Si necesitas enviar cookies o credenciales
+    origin: process.env.ORIGIN,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }));
 
 app.use(bodyParser.json()); // Middleware para analizar JSON
