@@ -1,7 +1,6 @@
 const Task = require('../models/taskModel');
 
 const taskService = {
-    // Obtener todas las tareas
     getAllTasks: async () => {
         try {
             const tasks = await Task.findAll({
@@ -28,7 +27,6 @@ const taskService = {
             throw err;
         }
     },
-    // Obtener una tarea por ID
     getTaskById: async (id) => {
         try {
             const task = await Task.findByPk(id);
@@ -49,7 +47,6 @@ const taskService = {
         }
     },
 
-    // Crear una nueva tarea
     createTask: async (taskData) => {
         try {
             const newTask = await Task.create(taskData);
@@ -59,7 +56,6 @@ const taskService = {
         }
     },
 
-    // Actualizar una tarea por ID
     updateTask: async (id, taskData) => {
         try {
             const task = await Task.findByPk(id);
@@ -73,7 +69,6 @@ const taskService = {
         }
     },
 
-    // Eliminar una tarea por ID
     deleteTask: async (id) => {
         try {
             const task = await Task.findByPk(id);

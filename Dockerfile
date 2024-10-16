@@ -1,27 +1,26 @@
-# Usa la imagen oficial de Node.js
-FROM node:18
+# Usa una imagen base oficial de Node.js (v18 para compatibilidad con Tedious)
+FROM node:18-alpine
 
-# Establece el directorio de trabajo en el contenedor
+# Instala Python3, make, g++, y las dependencias necesarias para ODBC
+RUN apk add --no-cache python3 build-base unixodbc-dev
+
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia el package.json y el package-lock.json
+# Copia los archivos package.json y package-lock.json al contenedor
 COPY package*.json ./
 
-# Instala las dependencias del sistema necesarias para compilar paquetes nativos
-RUN apt-get update && apt-get install -y \
-    python3 \
-    make \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
+# Instala las dependencias
+RUN npm install
 
-# Instala solo las dependencias de producción
-RUN npm install --production
-
-# Copia el resto del código de la aplicación al contenedor
+# Copia el resto del código de la aplicación
 COPY . .
 
-# Expone el puerto en el que la aplicación escucha
+# Expone el puerto en el que correrá tu aplicación
 EXPOSE 3000
 
-# Comando para iniciar la aplicación
+# Define una variable de entorno para determinar si estás en desarrollo o producción
+ENV NODE_ENV=development
+
+# Comando por defecto para correr la aplicación
 CMD ["npm", "start"]
